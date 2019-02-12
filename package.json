@@ -1,7 +1,7 @@
 {
     "name": "video-embedder",
-    "version": "1.0.0",
-    "description": "embeds videos lol",
+    "version": "0.5.0",
+    "description": "A small Vue component video embedder for YouTube/Vimeo videos.",
     "main": "index.js",
     "scripts": {
     "build": "rm -rf dist && NODE_ENV=production webpack",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org:bigclubdigital/the-hopper-frontend.git"
+    "url": "git+https://git@github.com/bsteward93/Video-Embedder.git"
   },
-  "author": "Eldon Ahrold",
+  "author": "Brandon Steward",
   "license": "MIT",
   "bugs": {
-    "url": "https://bitbucket.org/bigclubdigital/the-hopper-frontend/overview"
+    "url": "https://github.com/bsteward93/Video-Embedder"
   },
-  "homepage": "https://bitbucket.org/bigclubdigital/the-hopper-frontend/overview",
+  "homepage": "https://github.com/bsteward93/Video-Embedder",
   "peerDependencies": {
     "axios": "^0.18.0",
     "fontawesome": "^4.7.2",

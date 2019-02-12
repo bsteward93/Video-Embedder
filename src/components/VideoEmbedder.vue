@@ -82,8 +82,6 @@
     and Vimeo systems share basically no code - I tried to break them out as much as possible, so one isn't reliant on the same variables that the other may be. It was important to me to make this one component, which is why there isn't just a YouTube component and a Vimeo one - I wanted a good, catch-all solution. Hopefully this is it.
 */
 
-import Player from '@vimeo/player';
-
 const YOUTUBE = "youtube";
 const YOUTUBE_API = "//www.youtube.com/iframe_api";
 

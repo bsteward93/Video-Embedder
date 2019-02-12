@@ -1,7 +1,10 @@
 const YOUTUBE = "youtube";
 const YOUTUBE_API = "//www.youtube.com/iframe_api";
 
+import events from '../mixins/events';
+
 export default {
+    mixins: [ events, ],
     computed: {
         //----------------------------------------------------------
         // YouTube-specific computed props
@@ -71,6 +74,7 @@ export default {
         YouTubePlayerReady (event) {
             if (this.debug) console.log("Player ready:", event);
             this.currentPlayerState = this.YouTubePlayerStates.UNSTARTED;
+            this.onPlayerReady();
             if (this.autoplay) this.YouTubePlayVideo();
         },
         YouTubePlayVideo () {
@@ -86,6 +90,13 @@ export default {
         YouTubePlayerStateChange (event) {
             if (this.debug) console.log("Player state changed to:", event.data);
             this.currentPlayerState = event.data;
+            if (this.YouTubeCurrentPlayerState === "PLAYING") {
+                this.onPlayerPlaying();
+            } else if (this.YouTubeCurrentPlayerState === "PAUSED") {
+                this.onPlayerPaused();
+            } else if (this.YouTubeCurrentPlayerState === "ENDED") {
+                this.onPlayerFinished();
+            }
         },
     },
 }

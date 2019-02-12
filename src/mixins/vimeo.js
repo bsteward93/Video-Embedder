@@ -2,8 +2,10 @@ const VIMEO = "vimeo";
 const VIMEO_API = "";
 
 import Player from '@vimeo/player';
+import events from '../mixins/events';
 
 export default {
+    mixins: [ events, ],
     computed: {
         //----------------------------------------------------------
         // Vimeo-specific computed props

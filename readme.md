@@ -14,10 +14,10 @@ The component's name is "video-embedder". Use it like this:
 There are other arguments that you can use, see examples below.
 
 ## Arguments
-@param src: string, YouTube/Vimeo video URL (supports both embed/share links and video URLs).
-@param thumb: string, Image that displays over the video while the video is awaiting initialization/user click to play.
-@param vol: number, between 0 and 1. Sets initial volume. Defaults to 0.5.
-@param autoplay: boolean, toggle video auto-play (video will play as soon as player is ready)
+@param src: string, YouTube/Vimeo video URL (supports both embed/share links and video URLs).\
+@param thumb: string, Image that displays over the video while the video is awaiting initialization/user click to play.\
+@param vol: number, between 0 and 1. Sets initial volume. Defaults to 0.5.\
+@param autoplay: boolean, toggle video auto-play (video will play as soon as player is ready)\
 @param debug: boolean, enables logging of events along every player step of the way. Mostly for dev.
 
 ## Events

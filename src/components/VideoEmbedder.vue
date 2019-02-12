@@ -94,10 +94,14 @@ const $ = require('jquery');
 
 const VIDEO_NOT_READY = -5;
 
-import _ from 'lodash'
+import _ from 'lodash';
+
+import youtube from '../mixins/youtube';
+import vimeo from '../mixins/vimeo';
 
 export default {
     name: "video-embedder",
+    mixins: [ youtube, vimeo ],
     props : {
         src: {
             type: String,
@@ -186,44 +190,6 @@ export default {
                     break;
             };
         },
-
-        //----------------------------------------------------------
-        // YouTube-specific computed props
-        //-------------------------------------------------------
-        YouTubePlayerStates () {
-            return typeof YT === "object" ? YT.PlayerState : {};
-        },
-        YouTubeCurrentPlayerState () {
-            if (this.currentPlayerState === this.YouTubePlayerStates.UNSTARTED) return 'UNSTARTED';
-            else if (this.currentPlayerState === this.YouTubePlayerStates.BUFFERING) return 'BUFFERING';
-            else if (this.currentPlayerState === this.YouTubePlayerStates.PLAYING) return 'PLAYING';
-            else if (this.currentPlayerState === this.YouTubePlayerStates.PAUSED) return 'PAUSED';
-            else if (this.currentPlayerState === this.YouTubePlayerStates.ENDED) return 'ENDED';
-            else return 'UNLOADED';
-        },
-
-        //----------------------------------------------------------
-        // Vimeo-specific computed props
-        //-------------------------------------------------------
-        VimeoCurrentPlayerState () {
-            if (this.currentPlayerState === this.VimeoPlayerStates.UNSTARTED) return 'UNSTARTED';
-            else if (this.currentPlayerState === this.VimeoPlayerStates.BUFFERING) return 'BUFFERING';
-            else if (this.currentPlayerState === this.VimeoPlayerStates.PLAYING) return 'PLAYING';
-            else if (this.currentPlayerState === this.VimeoPlayerStates.PAUSED) return 'PAUSED';
-            else if (this.currentPlayerState === this.VimeoPlayerStates.ENDED) return 'ENDED';
-            else return 'UNLOADED';
-        },
-        VimeoPlayerStates () {
-            // These are just the YouTube player states - but YT serves them from the API, and Vimeo doesnt, so we just pretend theyre the same.
-            return {
-                UNSTARTED: -1,
-                BUFFERING: 3,
-                CUED: 5,
-                PLAYING: 1,
-                PAUSED: 2,
-                ENDED: 0,
-            }
-        },
     },
     methods: {
 
@@ -234,106 +200,6 @@ export default {
             if (this.provider === YOUTUBE) this.YouTubePlayVideo();
             else if (this.provider === VIMEO) this.VimeoPlayVideo();
         },
-
-        //----------------------------------------------------------
-        // YouTube-specific functions
-        //-------------------------------------------------------
-        initYouTubeVideo () {
-            var script = $('script[src="' + YOUTUBE_API + '"]');
-            if (this.debug) console.log("Checking for script!");
-            if (script.length) {
-                if (this.debug) console.log("Script found!");
-                this.YouTubeCheckReadyForPlayback();
-            } else {
-                if (this.debug) console.log("Script NOT found!");
-                this.addYouTubeAPI();
-            }
-        },
-        addYouTubeAPI () {
-            if (this.debug) console.log("Adding script!");
-            var tag = document.createElement('script');
-            tag.src = YOUTUBE_API;
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-            this.initYouTubeVideo();
-        },
-        YouTubeCheckReadyForPlayback () {
-            if ( typeof YT === "object" && YT.loaded === 1 ) {
-                this.prepareYouTubeVideo();
-            } else {
-                (_.debounce(()=>{
-                    if (this.debug) console.log("Script not ready - debouncing!");
-                    this.YouTubeCheckReadyForPlayback();
-                }, 100))();
-            }
-        },
-        prepareYouTubeVideo () {
-            if (this.debug) console.log("Preparing YouTube video:", this.videoID);
-            var player = new YT.Player(this.videoPlayerID, {
-                width: "100%",
-                height: "100%",
-                videoId: this.videoID,
-                playerVars: {
-                    rel: 0,
-                },
-                events: {
-                    'onReady': this.YouTubePlayerReady,
-                    'onError': this.YouTubePlayerError,
-                    'onStateChange': this.YouTubePlayerStateChange,
-                },
-            });
-            this.player = player;
-        },
-        YouTubePlayerReady (event) {
-            if (this.debug) console.log("Player ready:", event);
-            this.currentPlayerState = this.YouTubePlayerStates.UNSTARTED;
-            if (this.autoplay) this.YouTubePlayVideo();
-        },
-        YouTubePlayVideo () {
-            if (typeof this.player === "object" && typeof this.player.playVideo === "function") {
-                this.hasPlayed = true;
-                this.player.setVolume(this.adjustedVolume);
-                this.player.playVideo();
-            };
-        },
-        YouTubePlayerError (event) {
-            if (this.debug) console.log("Error with player:", event);
-        },
-        YouTubePlayerStateChange (event) {
-            if (this.debug) console.log("Player state changed to:", event.data);
-            this.currentPlayerState = event.data;
-        },
-
-
-        //----------------------------------------------------------
-        // Vimeo-specific functions
-        //-------------------------------------------------------
-        initVimeoVideo () {
-            // Vimeo doesn't need to check that the API is ready - since we `import` it, it should always be ready.
-            console.log("Preparing Vimeo video:", this.videoID);
-            var player = new Player(this.videoPlayerID, {
-                id: this.videoID,
-                width: "100%",
-                height: "100%",
-                quality: 'auto',
-            });
-            this.player = player;
-            if (this.autoplay) this.VimeoPlayVideo();
-        },
-
-        VimeoPlayVideo () {
-            this.player.play().then(()=>{
-                this.hasPlayed = true;
-                this.player.setVolume(this.adjustedVolume);
-                console.log("Playing");
-            }).catch((error)=>{
-                console.log("Error:", error);
-            });
-            this.player.on('ended', (data)=>{
-                this.hasPlayed = false;
-            });
-        },
-
 
     },
     watch: {

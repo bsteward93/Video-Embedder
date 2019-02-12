@@ -1,9 +1,9 @@
 {
-    "name": "video-embedder",
-    "version": "0.5.0",
-    "description": "A small Vue component video embedder for YouTube/Vimeo videos.",
-    "main": "index.js",
-    "scripts": {
+  "name": "video-embedder",
+  "version": "0.5.0",
+  "description": "A small Vue component video embedder for YouTube/Vimeo videos.",
+  "main": "dist/index.min.js",
+  "scripts": {
     "build": "rm -rf dist && NODE_ENV=production webpack",
     "lint": "eslint src __tests__ --ext .js,.vue --fix; exit 0",
     "prepublish": "npm run test; npm run build",
@@ -22,11 +22,7 @@
   },
   "homepage": "https://github.com/bsteward93/Video-Embedder",
   "peerDependencies": {
-    "axios": "^0.18.0",
-    "fontawesome": "^4.7.2",
     "jquery": "^3.3.1",
-    "lodash": "^4.17.0",
-    "moment": "^2.20.0",
     "simplemde": "^1.11.2",
     "vue": "^2.5.17",
     "@vimeo/player": "^2.5.0",
@@ -93,7 +89,9 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "fontawesome": "^4.7.2",
     "imagesloaded": "^4.1.4",
+    "lodash": "^4.17.11",
     "vue": "^2.5.17",
     "vue-the-mask": "^0.11.1",
     "vuedraggable": "^2.16.0"

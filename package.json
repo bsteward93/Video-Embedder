@@ -1,5 +1,5 @@
 {
-    "name": "videoembedder",
+    "name": "video-embedder",
     "version": "1.0.0",
     "description": "embeds videos lol",
     "main": "index.js",

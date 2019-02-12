@@ -5,12 +5,12 @@ This is just a small Vue component that supports video parameters and displays a
 ## Initialization
 In order to use the component, first you'll need to install it via npm.
 Once done, you'll need to import and initialize it within your app.js file:
-`import { VideoEmbedderPlugin } from 'VideoEmbedder;`
+`import { VideoEmbedderPlugin } from 'VideoEmbedder;`\
 `Vue.use(VideoEmbedderPlugin);`
 
 ## Usage
-The component's name is "video-embedder". Use it like this:
-`<video-embedder :src="'youtube.com/video/1234'"></video-embedder>`
+The component's name is "video-embedder". Use it like this:\
+`<video-embedder :src="'youtube.com/video/1234'"></video-embedder>`\
 There are other arguments that you can use, see examples below.
 
 ## Arguments
@@ -25,9 +25,9 @@ You can add custom events to your player that will fire during different play st
 - playerReady: fires when the video is fully loaded and ready to play.
 - playerPlaying: fires when the video begins to play after a user-initiated click (does not apply to autoplay since playerReady and playerPlaying are the same in that instance).
 - playerPaused: fires when the video is paused by the user.
-- playerFinished: fires when the video has played the full duration and reaches the end.
-Put these on your element like this:
-`@playerReady="yourCustomVueFunction"`
+- playerFinished: fires when the video has played the full duration and reaches the end.\
+Put these on your element like this:\
+`@playerReady="yourCustomVueFunction"`\
 These events work for YouTube but are still sketchy with Vimeo. Use accordingly.
 
 ## License

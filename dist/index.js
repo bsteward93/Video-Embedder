@@ -559,6 +559,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     return Math.round(val * 100) / 100 === val && val >= 0 && val <= 1;
                 }
             },
+            quality: {
+                type: String,
+                required: false,
+                validator: function validator(val) {
+                    var supportedQualities = ['low', 'medium', 'high'];
+                    return supportedQualities.indexOf(val) !== -1;
+                }
+            },
             autoplay: {
                 type: Boolean,
                 required: false,
@@ -577,6 +585,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             return {
                 player: null,
                 currentPlayerState: VIDEO_NOT_READY,
+                randomId: Math.round(Math.random() * 100000),
                 hasPlayed: false
             };
         },
@@ -586,7 +595,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         computed: {
             videoPlayerID: function videoPlayerID() {
-                return "video-player-" + this.videoID;
+                return "video-player-" + this.videoID + "-" + this.randomId;
             },
             hasThumbnail: function hasThumbnail() {
                 return Boolean(this.thumb);
@@ -603,8 +612,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 };
             },
             videoID: function videoID() {
+                /* 
+                 * 99 times out of 100, a YouTube of Vimeo link will have one of these formats:
+                 * https://vimeo.com/67039623
+                 * https://player.vimeo.com/video/67039623
+                 * https://www.youtube.com/watch?v=Gs069dndIYk
+                 * https://www.youtube.com/embed/Gs069dndIYk
+                 * https://youtu.be/Gs069dndIYk
+                 * In all cases, the video ID is the last piece of the URL (except where we need to strip out watch?v=).
+                 */
                 var srcFragments = this.src.split('/');
-                return srcFragments[srcFragments.length - 1];
+                var presumedVideoID = srcFragments[srcFragments.length - 1];
+                presumedVideoID = presumedVideoID.replace('watch?v=', '');
+                return presumedVideoID;
             },
             isYouTubeURL: function isYouTubeURL() {
                 var reg = new RegExp(/youtube/g);
@@ -1056,7 +1076,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_73f2e8ce_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_45262be1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__ = __webpack_require__(87);
 function injectStyle (ssrContext) {
   __webpack_require__(42)
 }
@@ -1071,12 +1091,12 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-73f2e8ce"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_73f2e8ce_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_45262be1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -1097,7 +1117,7 @@ var content = __webpack_require__(43);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(45)("8cf43c1e", content, true, {});
+var update = __webpack_require__(45)("47ae9c4e", content, true, {});
 
 /***/ }),
 /* 43 */
@@ -1108,7 +1128,7 @@ exports = module.exports = __webpack_require__(44)(false);
 
 
 // module
-exports.push([module.i, ".video-fade-enter-active[data-v-73f2e8ce],.video-fade-leave-active[data-v-73f2e8ce]{transition:opacity .5s}.video-fade-enter[data-v-73f2e8ce],.video-fade-leave-to[data-v-73f2e8ce]{opacity:0}.video-embedder-component[data-v-73f2e8ce]{width:100%;padding-top:56.25%;position:relative}.video-embedder-component .full-size[data-v-73f2e8ce]{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-inner[data-v-73f2e8ce]{z-index:1}.video-embedder-component .video-inner div[data-v-73f2e8ce],.video-embedder-component .video-inner iframe[data-v-73f2e8ce]{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-thumbnail-wrapper[data-v-73f2e8ce]{z-index:2;cursor:pointer}.video-embedder-component .video-thumbnail-wrapper span[data-v-73f2e8ce]{display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4em}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-circle[data-v-73f2e8ce]{color:#fff}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-play-circle[data-v-73f2e8ce]{color:#005d83}", ""]);
+exports.push([module.i, ".video-fade-enter-active,.video-fade-leave-active{transition:opacity .5s}.video-fade-enter,.video-fade-leave-to{opacity:0}.video-embedder-component{width:100%;padding-top:56.25%;position:relative}.video-embedder-component .full-size{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-inner{z-index:1}.video-embedder-component .video-inner div,.video-embedder-component .video-inner iframe{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-thumbnail-wrapper{z-index:2;cursor:pointer}.video-embedder-component .video-thumbnail-wrapper span{display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4em}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-circle{color:#fff}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-play-circle{color:#005d83}", ""]);
 
 // exports
 
@@ -1621,6 +1641,24 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             },
             YouTubeCurrentPlayerState: function YouTubeCurrentPlayerState() {
                 if (this.currentPlayerState === this.YouTubePlayerStates.UNSTARTED) return 'UNSTARTED';else if (this.currentPlayerState === this.YouTubePlayerStates.BUFFERING) return 'BUFFERING';else if (this.currentPlayerState === this.YouTubePlayerStates.PLAYING) return 'PLAYING';else if (this.currentPlayerState === this.YouTubePlayerStates.PAUSED) return 'PAUSED';else if (this.currentPlayerState === this.YouTubePlayerStates.ENDED) return 'ENDED';else return 'UNLOADED';
+            },
+            YouTubeVideoQuality: function YouTubeVideoQuality() {
+                // youtube's quality naming system makes no sense to me
+                // From https://developers.google.com/youtube/iframe_api_reference#setPlaybackQuality
+                switch (this.quality) {
+                    case "low":
+                        return "large";
+                        break;
+                    case "medium":
+                        return "hd720";
+                        break;
+                    case "high":
+                        return "hd1080";
+                        break;
+                    default:
+                        return "auto";
+                        break;
+                }
             }
         },
         methods: {
@@ -1643,6 +1681,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 var tag = document.createElement('script');
                 tag.src = YOUTUBE_API;
                 var firstScriptTag = document.getElementsByTagName('script')[0];
+                // this puts the <script> in the <head> usually but I'm not sure if that matters
                 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
                 this.initYouTubeVideo();
             },
@@ -1674,6 +1713,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     }
                 });
                 this.player = player;
+                // this.player.setPlaybackQuality(this.YouTubeVideoQuality);
             },
             YouTubePlayerReady: function YouTubePlayerReady(event) {
                 if (this.debug) console.log("Player ready:", event);
@@ -2518,6 +2558,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             // Vimeo-specific computed props
             //-------------------------------------------------------
             VimeoCurrentPlayerState: function VimeoCurrentPlayerState() {
+                // I do it this way (even though it isnt really supported by Vimeo the same way it is by YouTube) in order to keep
+                // the methods by which both players keep track of the current play state the same.
                 if (this.currentPlayerState === this.VimeoPlayerStates.UNSTARTED) return 'UNSTARTED';else if (this.currentPlayerState === this.VimeoPlayerStates.BUFFERING) return 'BUFFERING';else if (this.currentPlayerState === this.VimeoPlayerStates.PLAYING) return 'PLAYING';else if (this.currentPlayerState === this.VimeoPlayerStates.PAUSED) return 'PAUSED';else if (this.currentPlayerState === this.VimeoPlayerStates.ENDED) return 'ENDED';else return 'UNLOADED';
             },
             VimeoPlayerStates: function VimeoPlayerStates() {
@@ -2530,6 +2572,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     PAUSED: 2,
                     ENDED: 0
                 };
+            },
+            VimeoVideoQuality: function VimeoVideoQuality() {
+                // From https://github.com/vimeo/player.js#embed-options
+                switch (this.quality) {
+                    case "low":
+                        return "540p";
+                        break;
+                    case "medium":
+                        return "720p";
+                        break;
+                    case "high":
+                        return "1080p";
+                        break;
+                    default:
+                        return "auto";
+                        break;
+                }
             }
         },
         methods: {
@@ -2542,25 +2601,47 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 var player = new _player2.default(this.videoPlayerID, {
                     id: this.videoID,
                     width: "100%",
-                    height: "100%",
-                    quality: 'auto'
+                    height: "100%"
+                    // quality: this.VimeoVideoQuality,
                 });
                 this.player = player;
+
+                this.player.on('ended', this.VimeoVideoEnded);
+                this.player.on('play', this.VimeoVideoPlayed);
+                this.player.on('pause', this.VimeoVideoPaused);
+
+                this.currentPlayerState = this.VimeoPlayerStates.UNSTARTED;
+
+                this.onPlayerReady();
+
                 if (this.autoplay) this.VimeoPlayVideo();
             },
             VimeoPlayVideo: function VimeoPlayVideo() {
                 var _this = this;
 
+                // Fires when video is manually played
                 this.player.play().then(function () {
                     _this.hasPlayed = true;
                     _this.player.setVolume(_this.adjustedVolume);
-                    if (_this.debug) console.log("Playing");
                 }).catch(function (error) {
                     console.log("Error:", error);
                 });
-                this.player.on('ended', function (data) {
-                    _this.hasPlayed = false;
-                });
+            },
+            VimeoVideoPlayed: function VimeoVideoPlayed() {
+                if (this.debug) console.log("Played Vimeo video...");
+                this.onPlayerPlaying();
+                this.currentPlayerState = this.VimeoPlayerStates.PLAYING;
+            },
+            VimeoVideoPaused: function VimeoVideoPaused() {
+                if (this.debug) console.log("Paused Vimeo video...");
+                this.onPlayerPaused();
+                this.currentPlayerState = this.VimeoPlayerStates.PAUSED;
+            },
+            VimeoVideoEnded: function VimeoVideoEnded(data) {
+                if (this.debug) console.log("Vimeo video has ended...");
+                this.hasPlayed = false;
+                this.onPlayerFinished();
+                this.currentPlayerState = this.VimeoPlayerStates.ENDED;
             }
         }
     };

@@ -20,6 +20,24 @@ export default {
             else if (this.currentPlayerState === this.YouTubePlayerStates.ENDED) return 'ENDED';
             else return 'UNLOADED';
         },
+        YouTubeVideoQuality () {
+            // youtube's quality naming system makes no sense to me
+            // From https://developers.google.com/youtube/iframe_api_reference#setPlaybackQuality
+            switch(this.quality) {
+                case "low":
+                    return "large";
+                    break;
+                case "medium":
+                    return "hd720";
+                    break;
+                case "high":
+                    return "hd1080";
+                    break;
+                default:
+                    return "auto";
+                    break;
+            }
+        },
     },
     methods: {
         //----------------------------------------------------------
@@ -41,6 +59,7 @@ export default {
             var tag = document.createElement('script');
             tag.src = YOUTUBE_API;
             var firstScriptTag = document.getElementsByTagName('script')[0];
+            // this puts the <script> in the <head> usually but I'm not sure if that matters
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             this.initYouTubeVideo();
         },
@@ -70,6 +89,7 @@ export default {
                 },
             });
             this.player = player;
+            // this.player.setPlaybackQuality(this.YouTubeVideoQuality);
         },
         YouTubePlayerReady (event) {
             if (this.debug) console.log("Player ready:", event);

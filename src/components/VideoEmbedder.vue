@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+<style lang="scss">
     .video-fade-enter-active, .video-fade-leave-active {
         transition: opacity .5s;
     }
@@ -114,6 +114,14 @@ export default {
                 return ((Math.round(val * 100) / 100) === val && val >= 0 && val <= 1);
             },
         },
+        quality: {
+            type: String,
+            required: false,
+            validator: (val) => {
+                var supportedQualities = [ 'low', 'medium', 'high', ];
+                return (supportedQualities.indexOf(val) !== -1);
+            },
+        },
         autoplay: {
              type: Boolean,
              required: false,
@@ -132,6 +140,7 @@ export default {
         return {
             player: null,
             currentPlayerState: VIDEO_NOT_READY,
+            randomId: Math.round(Math.random() * 100000),
             hasPlayed: false,
         };
     },
@@ -141,7 +150,7 @@ export default {
     },
     computed: {
         videoPlayerID () {
-            return "video-player-" + this.videoID;
+            return `video-player-${this.videoID}-${this.randomId}`;
         },
         hasThumbnail () {
             return Boolean(this.thumb);
@@ -158,8 +167,19 @@ export default {
             };
         },
         videoID () {
+            /* 
+             * 99 times out of 100, a YouTube of Vimeo link will have one of these formats:
+             * https://vimeo.com/67039623
+             * https://player.vimeo.com/video/67039623
+             * https://www.youtube.com/watch?v=Gs069dndIYk
+             * https://www.youtube.com/embed/Gs069dndIYk
+             * https://youtu.be/Gs069dndIYk
+             * In all cases, the video ID is the last piece of the URL (except where we need to strip out watch?v=).
+             */
             var srcFragments = this.src.split('/');
-            return srcFragments[srcFragments.length - 1]
+            var presumedVideoID = srcFragments[srcFragments.length - 1];
+            presumedVideoID = presumedVideoID.replace('watch?v=', '');
+            return presumedVideoID;
         },
         isYouTubeURL () {
             var reg = new RegExp(/youtube/g);

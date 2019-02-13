@@ -11,6 +11,8 @@ export default {
         // Vimeo-specific computed props
         //-------------------------------------------------------
         VimeoCurrentPlayerState () {
+            // I do it this way (even though it isnt really supported by Vimeo the same way it is by YouTube) in order to keep
+            // the methods by which both players keep track of the current play state the same.
             if (this.currentPlayerState === this.VimeoPlayerStates.UNSTARTED) return 'UNSTARTED';
             else if (this.currentPlayerState === this.VimeoPlayerStates.BUFFERING) return 'BUFFERING';
             else if (this.currentPlayerState === this.VimeoPlayerStates.PLAYING) return 'PLAYING';
@@ -29,6 +31,23 @@ export default {
                 ENDED: 0,
             }
         },
+        VimeoVideoQuality () {
+            // From https://github.com/vimeo/player.js#embed-options
+            switch(this.quality) {
+                case "low":
+                    return "540p";
+                    break;
+                case "medium":
+                    return "720p";
+                    break;
+                case "high":
+                    return "1080p";
+                    break;
+                default:
+                    return "auto";
+                    break;
+            }
+        },
     },
     methods: {
         //----------------------------------------------------------
@@ -41,23 +60,48 @@ export default {
                 id: this.videoID,
                 width: "100%",
                 height: "100%",
-                quality: 'auto',
+                // quality: this.VimeoVideoQuality,
             });
             this.player = player;
+
+            this.player.on('ended', this.VimeoVideoEnded);
+            this.player.on('play', this.VimeoVideoPlayed);
+            this.player.on('pause', this.VimeoVideoPaused);
+            
+            this.currentPlayerState = this.VimeoPlayerStates.UNSTARTED;
+            
+            this.onPlayerReady();
+
             if (this.autoplay) this.VimeoPlayVideo();
         },
 
         VimeoPlayVideo () {
+            // Fires when video is manually played
             this.player.play().then(()=>{
                 this.hasPlayed = true;
                 this.player.setVolume(this.adjustedVolume);
-                if (this.debug) console.log("Playing");
             }).catch((error)=>{
                 console.log("Error:", error);
             });
-            this.player.on('ended', (data)=>{
-                this.hasPlayed = false;
-            });
+        },
+
+        VimeoVideoPlayed () {
+            if (this.debug) console.log("Played Vimeo video...");
+            this.onPlayerPlaying();
+            this.currentPlayerState = this.VimeoPlayerStates.PLAYING;
+        },
+
+        VimeoVideoPaused () {
+            if (this.debug) console.log("Paused Vimeo video...");
+            this.onPlayerPaused();
+            this.currentPlayerState = this.VimeoPlayerStates.PAUSED;
+        },
+
+        VimeoVideoEnded (data) {
+            if (this.debug) console.log("Vimeo video has ended...");
+            this.hasPlayed = false;
+            this.onPlayerFinished();
+            this.currentPlayerState = this.VimeoPlayerStates.ENDED;
         },
     },
 }

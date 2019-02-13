@@ -35,8 +35,8 @@ module.exports = merge(require('./webpack.base'), {
             minimize: true,
         }),
         new ExtractTextPlugin("css/[name].css"),
-        new CopyWebpackPlugin([
-            {from:'src/fonts',to:'fonts'}
-        ]),
+        // new CopyWebpackPlugin([
+        //     {from:'src/fonts',to:'fonts'}
+        // ]),
     ],
 });

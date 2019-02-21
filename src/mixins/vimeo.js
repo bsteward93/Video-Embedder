@@ -60,6 +60,8 @@ export default {
                 id: this.videoID,
                 width: "100%",
                 height: "100%",
+                // NOTE: Background Video (this method) ONLY WORKS for Vimeo if the user has pro or whatever. It's fucking stupid.
+                background: this.backgroundVideo,
                 // quality: this.VimeoVideoQuality,
             });
             this.player = player;
@@ -72,7 +74,7 @@ export default {
             
             this.onPlayerReady();
 
-            if (this.autoplay) this.VimeoPlayVideo();
+            if (this.autoplay || this.backgroundVideo) this.VimeoPlayVideo();
         },
 
         VimeoPlayVideo () {

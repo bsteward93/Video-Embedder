@@ -526,13 +526,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     //
     //
     //
+    //
+    //
+    //
+    //
 
-
-    /*
-        Vimeo and YouTube video creator - takes a source URL (either Vimeo or YouTube - and either direct link or embed code) and creates a wrapper
-        for the video that includes things like thumbnail creation, dynamic state readings, and maybe other cool stuff eventually idk. The YouTube
-        and Vimeo systems share basically no code - I tried to break them out as much as possible, so one isn't reliant on the same variables that the other may be. It was important to me to make this one component, which is why there isn't just a YouTube component and a Vimeo one - I wanted a good, catch-all solution. Hopefully this is it.
-    */
 
     var YOUTUBE = "youtube";
     var YOUTUBE_API = "//www.youtube.com/iframe_api";
@@ -549,6 +547,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             src: {
                 type: String,
                 required: true
+            },
+            backgroundVideo: {
+                type: Boolean,
+                required: false,
+                default: false
             },
             volume: {
                 type: Number,
@@ -1076,7 +1079,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_45262be1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_39adb784_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__ = __webpack_require__(87);
 function injectStyle (ssrContext) {
   __webpack_require__(42)
 }
@@ -1096,7 +1099,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_VideoEmbedder_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_45262be1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_39adb784_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_VideoEmbedder_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -1117,7 +1120,7 @@ var content = __webpack_require__(43);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(45)("47ae9c4e", content, true, {});
+var update = __webpack_require__(45)("37dfda72", content, true, {});
 
 /***/ }),
 /* 43 */
@@ -1128,7 +1131,7 @@ exports = module.exports = __webpack_require__(44)(false);
 
 
 // module
-exports.push([module.i, ".video-fade-enter-active,.video-fade-leave-active{transition:opacity .5s}.video-fade-enter,.video-fade-leave-to{opacity:0}.video-embedder-component{width:100%;padding-top:56.25%;position:relative}.video-embedder-component .full-size{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-inner{z-index:1}.video-embedder-component .video-inner div,.video-embedder-component .video-inner iframe{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-thumbnail-wrapper{z-index:2;cursor:pointer}.video-embedder-component .video-thumbnail-wrapper span{display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4em}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-circle{color:#fff}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-play-circle{color:#005d83}", ""]);
+exports.push([module.i, ".video-fade-enter-active,.video-fade-leave-active{transition:opacity .5s}.video-fade-enter,.video-fade-leave-to{opacity:0}.video-embedder-component{width:100%;padding-top:56.25%;position:relative}.video-embedder-component .full-size{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-inner{z-index:1}.video-embedder-component .video-inner div,.video-embedder-component .video-inner iframe{position:absolute;top:0;left:0;width:100%;height:100%}.video-embedder-component .video-thumbnail-wrapper{z-index:2;cursor:pointer}.video-embedder-component .video-thumbnail-wrapper span{display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4em}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-circle{color:#fff}.video-embedder-component .video-thumbnail-wrapper i.fa.fa-play-circle{color:#005d83}.video-embedder-component .background-video-overlay{z-index:5}", ""]);
 
 // exports
 
@@ -1699,27 +1702,48 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             },
             prepareYouTubeVideo: function prepareYouTubeVideo() {
                 if (this.debug) console.log("Preparing YouTube video:", this.videoID);
-                var player = new YT.Player(this.videoPlayerID, {
+                var params = {
                     width: "100%",
                     height: "100%",
                     videoId: this.videoID,
                     playerVars: {
-                        rel: 0
+                        rel: 0,
+                        autoplay: this.autoplay,
+                        showinfo: 0,
+                        controls: 0,
+                        enablejsapi: 1,
+                        // Load annotations - 1 to enable, 3 to disable (wtf)
+                        iv_load_policy: 3
                     },
                     events: {
                         'onReady': this.YouTubePlayerReady,
                         'onError': this.YouTubePlayerError,
                         'onStateChange': this.YouTubePlayerStateChange
                     }
-                });
+                };
+                if (this.backgroundVideo) {
+                    params.playerVars.playlist = this.videoID;
+                    params.playerVars.controls = 0;
+                    params.playerVars.showinfo = 0;
+                    params.playerVars.disablekb = 1;
+                    params.playerVars.modestbranding = 1;
+                    params.playerVars.loop = 1;
+                };
+                var player = new YT.Player(this.videoPlayerID, params);
                 this.player = player;
                 // this.player.setPlaybackQuality(this.YouTubeVideoQuality);
             },
             YouTubePlayerReady: function YouTubePlayerReady(event) {
                 if (this.debug) console.log("Player ready:", event);
+
                 this.currentPlayerState = this.YouTubePlayerStates.UNSTARTED;
                 this.onPlayerReady();
-                if (this.autoplay) this.YouTubePlayVideo();
+
+                if (this.backgroundVideo) {
+                    this.player.mute();
+                }
+
+                if (this.autoplay || this.backgroundVideo) this.YouTubePlayVideo();
             },
             YouTubePlayVideo: function YouTubePlayVideo() {
                 if ((0, _typeof3.default)(this.player) === "object" && typeof this.player.playVideo === "function") {
@@ -2601,7 +2625,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 var player = new _player2.default(this.videoPlayerID, {
                     id: this.videoID,
                     width: "100%",
-                    height: "100%"
+                    height: "100%",
+                    // NOTE: Background Video (this method) ONLY WORKS for Vimeo if the user has pro or whatever. It's fucking stupid.
+                    background: this.backgroundVideo
                     // quality: this.VimeoVideoQuality,
                 });
                 this.player = player;
@@ -2614,7 +2640,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
                 this.onPlayerReady();
 
-                if (this.autoplay) this.VimeoPlayVideo();
+                if (this.autoplay || this.backgroundVideo) this.VimeoPlayVideo();
             },
             VimeoPlayVideo: function VimeoPlayVideo() {
                 var _this = this;
@@ -5192,7 +5218,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_86__;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"video-embedder-component video-embedder video-component"},[_c('transition',{attrs:{"name":"video-fade"}},[(_vm.hasThumbnail && !_vm.hasPlayed && !_vm.autoplay)?_c('div',{staticClass:"video-thumbnail-wrapper full-size"},[_c('div',{staticClass:"video-thumbnail full-size",style:(_vm.thumbStyle),on:{"click":_vm.playVideoBasedOnProvider}},[(_vm.hasDefaultSlot)?[_vm._t("default")]:[_c('span',{staticClass:"fa fa-stack fa-lg"},[_c('i',{staticClass:"fa fa-circle fa-stack-2x",attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('i',{staticClass:"fa fa-play-circle fa-stack-2x",attrs:{"aria-hidden":"true"}})])]],2)]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"video-inner full-size"},[_c('div',{attrs:{"id":_vm.videoPlayerID}})])],1)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"video-embedder-component video-embedder video-component"},[_c('transition',{attrs:{"name":"video-fade"}},[(_vm.hasThumbnail && !_vm.hasPlayed && !_vm.autoplay)?_c('div',{staticClass:"video-thumbnail-wrapper full-size"},[_c('div',{staticClass:"video-thumbnail full-size",style:(_vm.thumbStyle),on:{"click":_vm.playVideoBasedOnProvider}},[(_vm.hasDefaultSlot)?[_vm._t("default")]:(!_vm.backgroundVideo)?[_c('span',{staticClass:"fa fa-stack fa-lg"},[_c('i',{staticClass:"fa fa-circle fa-stack-2x",attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('i',{staticClass:"fa fa-play-circle fa-stack-2x",attrs:{"aria-hidden":"true"}})])]:_vm._e()],2)]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"video-inner full-size"},[_c('div',{attrs:{"id":_vm.videoPlayerID}})]),_vm._v(" "),(_vm.backgroundVideo)?_c('div',{staticClass:"background-video-overlay full-size"}):_vm._e()],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

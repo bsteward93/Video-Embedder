@@ -75,27 +75,49 @@ export default {
         },
         prepareYouTubeVideo () {
             if (this.debug) console.log("Preparing YouTube video:", this.videoID);
-            var player = new YT.Player(this.videoPlayerID, {
+            var params = {
                 width: "100%",
                 height: "100%",
                 videoId: this.videoID,
                 playerVars: {
                     rel: 0,
+                    autoplay: this.autoplay,
+                    showinfo: 0, 
+                    controls: 0, 
+                    enablejsapi: 1,
+                    // Load annotations - 1 to enable, 3 to disable (wtf)
+                    iv_load_policy: 3,
                 },
                 events: {
                     'onReady': this.YouTubePlayerReady,
                     'onError': this.YouTubePlayerError,
                     'onStateChange': this.YouTubePlayerStateChange,
                 },
-            });
+            };
+            if (this.backgroundVideo) {
+                params.playerVars.playlist = this.videoID;
+                params.playerVars.controls = 0;
+                params.playerVars.showinfo = 0;
+                params.playerVars.disablekb = 1;
+                params.playerVars.modestbranding = 1;
+                params.playerVars.loop = 1;
+            };
+            var player = new YT.Player(this.videoPlayerID, params);
             this.player = player;
             // this.player.setPlaybackQuality(this.YouTubeVideoQuality);
         },
         YouTubePlayerReady (event) {
             if (this.debug) console.log("Player ready:", event);
+
             this.currentPlayerState = this.YouTubePlayerStates.UNSTARTED;
             this.onPlayerReady();
-            if (this.autoplay) this.YouTubePlayVideo();
+
+            if (this.backgroundVideo) {
+                this.player.mute();
+            }
+
+            if (this.autoplay || this.backgroundVideo) this.YouTubePlayVideo();
+
         },
         YouTubePlayVideo () {
             if (typeof this.player === "object" && typeof this.player.playVideo === "function") {

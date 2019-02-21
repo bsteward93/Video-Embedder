@@ -48,6 +48,9 @@
                 }
             }
         }
+        .background-video-overlay {
+            z-index: 5;
+        }
     }
 </style>
 
@@ -59,7 +62,7 @@
                     <template v-if="hasDefaultSlot">
                         <slot></slot>
                     </template>
-                    <template v-else>
+                    <template v-else-if="!backgroundVideo">
                         <span class="fa fa-stack fa-lg">
                             <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
                             <i class="fa fa-play-circle fa-stack-2x" aria-hidden="true"></i>
@@ -71,16 +74,11 @@
         <div class="video-inner full-size">
             <div :id="videoPlayerID"></div>
         </div>
+        <div class="background-video-overlay full-size" v-if="backgroundVideo"></div>
     </div>
 </template>
 
 <script>
-
-/*
-    Vimeo and YouTube video creator - takes a source URL (either Vimeo or YouTube - and either direct link or embed code) and creates a wrapper
-    for the video that includes things like thumbnail creation, dynamic state readings, and maybe other cool stuff eventually idk. The YouTube
-    and Vimeo systems share basically no code - I tried to break them out as much as possible, so one isn't reliant on the same variables that the other may be. It was important to me to make this one component, which is why there isn't just a YouTube component and a Vimeo one - I wanted a good, catch-all solution. Hopefully this is it.
-*/
 
 const YOUTUBE = "youtube";
 const YOUTUBE_API = "//www.youtube.com/iframe_api";
@@ -104,6 +102,11 @@ export default {
         src: {
             type: String,
             required: true,
+        },
+        backgroundVideo: {
+            type: Boolean,
+            required: false,
+            default: false,
         },
         volume: {
             type: Number,

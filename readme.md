@@ -1,6 +1,6 @@
 # Hello! Welcome to the Video Embedder Plugin!
 
-This is just a small Vue component that easily embeds a video with custom thumbnails, play buttons, and wired-up events all ready to go for you. The video will always display in a 16:9 format, although support for custom aspect ratios may come in the future if needed. You can wire up the player to respond to many different player state events such as played, paused, and finished. This allows you to easily integrate this custom element with any other Vue components you may already be using. 
+This is just a small Vue component that easily embeds a YouTube/Vimeo video with custom thumbnails, play buttons, and wired-up events all ready to go for you. The video will always display in a 16:9 format, although support for custom aspect ratios may come in the future if needed. You can wire up the player to respond to many different player state events such as played, paused, and finished. This allows you to easily integrate this custom element with any other Vue components you may already be using. 
 
 ## Initialization
 In order to use the component, first you'll need to install it via npm:\
@@ -21,7 +21,8 @@ There are other arguments that you can use, see examples below.
 @param thumb: string, Image that displays over the video while the video is awaiting initialization/user click to play.\
 @param vol: number, between 0 and 1. Sets initial volume. Defaults to 0.5.\
 @param autoplay: boolean, toggle video auto-play (video will play as soon as player is ready)\
-@param quality: string, either "low", "medium", or "high". This is WIP and doesn't work right now.
+@param backgroundVideo: boolean, toggle video as a background video. NOTE: YouTube and Vimeo don't seem to like background videos anymore. Vimeo only supports if it the user who uploaded the video has Plus, PRO, Business, or Premium. YouTube doesn't care BUT the videos don't loop perfectly (there's a slight buffer) and the video info flashes at the beginning of playback. Use at your own risk.\
+@param quality: string, either "low", "medium", or "high". This is WIP and doesn't work right now.\
 @param debug: boolean, enables logging of events along every player step of the way. Mostly for dev.
 
 ## Events
@@ -36,6 +37,8 @@ These events work for YouTube but are still sketchy with Vimeo. Use accordingly.
 
 ## Road Map
 One of the things I'd like to add is a custom video player GUI so that both the YouTube and Vimeo experiences are unified. The goal is the front-end user would never know which of the two video services is being used - just that a super fancy video player is playing your awesome video! I would also like to consider adding support for cued videos, although that is a much lower priority. Better player state recognition is one of my first to-do's, as I think support for buffered videos may be helpful to many people.
+
+Custom video support may come in the future as well, although that is not something I currently have plans for.
 
 ## License
 Licensed under the [MIT license](http://opensource.org/licenses/MIT).
